@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Proposal for Payal</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(to bottom, #ffe6f2, #ffb6c1);
+            color: #d63384;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: 2px solid #ff69b4;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        #yes {
+            background-color: #ff69b4;
+            color: white;
+        }
+        #yes:hover {
+            background-color: #ff1493;
+            transform: scale(1.05);
+        }
+        #no {
+            background-color: #ffb6c1;
+            color: #d63384;
+            position: relative;
+        }
+        #no:hover {
+            background-color: #ff91a4;
+            transform: scale(1.05);
+        }
+        .message {
+            margin-top: 30px;
+            font-size: 1.5em;
+            display: none;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .heart {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 2em;
+            animation: float 3s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh); opacity: 1; }
+            100% { transform: translateY(-100px); opacity: 0; }
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            button {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    <h1>Payal, Will You Be My Valentine? 💖🌸</h1>
+    <div class="buttons">
+        <button id="yes">Yes! 😍</button>
+        <button id="no">No 😏</button>
+    </div>
+    <div class="message" id="message"></div>
+
+    <script>
+        const noButton = document.getElementById('no');
+        const yesButton = document.getElementById('yes');
+        const message = document.getElementById('message');
+        const heartsContainer = document.getElementById('hearts');
+        let attempts = 0;
+
+        // Function to create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 3 + 's';
+            heartsContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+        }
+
+        // Start creating hearts periodically
+        setInterval(createHeart, 500);
+
+        // Function to move the No button to a random location
+        function moveNoButton() {
+            const maxX = window.innerWidth - noButton.offsetWidth - 40;
+            const maxY = window.innerHeight - noButton.offsetHeight - 40;
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            noButton.style.position = 'absolute';
+            noButton.style.left = randomX + 'px';
+            noButton.style.top = randomY + 'px';
+            noButton.style.display = 'block';
+        }
+
+        // On No button click/tap
+        noButton.addEventListener('click', () => {
+            attempts++;
+            noButton.style.display = 'none';
+            // Reappear after a short delay in a new location
+            setTimeout(moveNoButton, 300);
+            // After many attempts, show a fun message
+            if (attempts > 15) {
+                message.textContent = "You're too cute to say no forever! Just say yes? 😘💕";
+                message.style.display = 'block';
+                noButton.style.display = 'none';
+            }
+        });
+
+        // On Yes button click/tap
+        yesButton.addEventListener('click', () => {
+            message.textContent = "Yay! You're the sweetest, Payal! Happy Valentine's Day! 🎉💖";
+            message.style.display = 'block';
+            noButton.style.display = 'none';
+            // Extra hearts on yes
+            for (let i = 0; i < 10; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+        });
+    </script>
+</body>
+</html>
